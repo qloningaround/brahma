@@ -5,9 +5,9 @@
 #ifndef BRAHMA_BRAHMA_H
 #define BRAHMA_BRAHMA_H
 
-#include "brahma/interface/posix.h"
-#include "brahma/interface/stdio.h"
-#include "brahma/interface/mpiio.h"
+#include <brahma/interface/posix.h>
+#include <brahma/interface/stdio.h>
+#include <brahma/interface/mpiio.h>
 #include <cassert>
 
 void brahma_gotcha_wrap(const char *name, uint16_t priority) {
