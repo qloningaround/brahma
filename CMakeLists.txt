@@ -8,18 +8,30 @@ include_directories(${CMAKE_SOURCE_DIR}/src)
 include_directories(${CMAKE_SOURCE_DIR}/include)
 set(BRAHMA_SRC src/brahma/brahma.cpp)
 set(BRAHMA_PUBLIC_INCLUDE include/brahma/brahma.h)
-set(BRAHMA_PRIVATE_INCLUDE src/brahma/interceptor.h src/brahma/posix.h src/brahma/stdio.h src/brahma/singleton.h)
+set(BRAHMA_PRIVATE_INCLUDE src/brahma/interceptor.h src/brahma/interface/posix.h src/brahma/interface/stdio.h src/brahma/interface/mpiio.h)
 add_library(${PROJECT_NAME} SHARED ${BRAHMA_SRC} ${BRAHMA_PUBLIC_INCLUDE} ${BRAHMA_PRIVATE_INCLUDE})
-set(DEPENDENCY_LIB )
+set(DEPENDENCY_LIB)
 
 # find Gotcha
 find_package(gotcha REQUIRED)
 if (${gotcha_FOUND})
+    message(STATUS "[Gotcha] found gotcha at ${gotcha_INCLUDE_DIRS}")
     include_directories(${gotcha_INCLUDE_DIRS})
     set(DEPENDENCY_LIB ${DEPENDENCY_LIB} ${gotcha_LIBRARIES})
-else()
-    message(FATAL_ERROR "Gotcha is needed for ${PROJECT_NAME} build")
+else ()
+    message(FATAL_ERROR "-- [Gotcha] is needed for ${PROJECT_NAME} build")
 endif ()
+
+# find MPI
+find_package(MPI COMPONENTS CXX REQUIRED)
+if (MPI_FOUND)
+    message(STATUS "[MPI] found mpi.h at ${MPI_CXX_INCLUDE_DIRS}")
+    include_directories(${MPI_CXX_INCLUDE_DIRS})
+    set(DEPENDENCY_LIB ${DEPENDENCY_LIB} ${MPI_CXX_LIBRARIES})
+else ()
+    message(FATAL_ERROR "-- [MPI] is needed for ${PROJECT_NAME} build")
+endif ()
+
 
 target_link_libraries(${PROJECT_NAME} ${DEPENDENCY_LIB})
 

@@ -9,7 +9,7 @@
 #include <bits/types/struct_iovec.h>
 #include <unistd.h>
 
-#include <brahma/interceptor.h>
+#include "brahma/interceptor.h"
 
 namespace brahma {
     class POSIX {
@@ -23,6 +23,7 @@ namespace brahma {
                 throw std::runtime_error("POSIX class not intercepted but used");
             }
         }
+
         static int set_instance(std::shared_ptr<POSIX> instance_i) {
             if (instance_i != nullptr) {
                 my_instance = instance_i;
@@ -31,6 +32,7 @@ namespace brahma {
                 throw std::runtime_error("instance_i is not set");
             }
         }
+
         virtual int open(const char *pathname, int flags, mode_t mode);
 
         virtual int creat64(const char *path, mode_t mode);
@@ -51,9 +53,9 @@ namespace brahma {
 
         virtual ssize_t pread64(int fd, void *buf, size_t count, off64_t offset);
 
-        virtual ssize_t pwrite(int fd, const void *buf, size_t count, off64_t offset) ;
+        virtual ssize_t pwrite(int fd, const void *buf, size_t count, off64_t offset);
 
-        virtual ssize_t pwrite64(int fd, const void *buf, size_t count, off64_t offset) ;
+        virtual ssize_t pwrite64(int fd, const void *buf, size_t count, off64_t offset);
 
         virtual ssize_t readv(int fd, const struct iovec *iov, int iovcnt);
 
@@ -77,7 +79,7 @@ GOTCHA_MACRO(close, int, (int fd), (fd), brahma::POSIX);
 
 GOTCHA_MACRO(write, ssize_t, (int fd, const void *buf, size_t count), (fd, buf, count), brahma::POSIX);
 
-GOTCHA_MACRO(read, ssize_t, (int fd, void * buf, size_t count),(fd, buf, count), brahma::POSIX);
+GOTCHA_MACRO(read, ssize_t, (int fd, void * buf, size_t count), (fd, buf, count), brahma::POSIX);
 
 GOTCHA_MACRO(lseek, off_t, (int fd, off_t offset, int whence), (fd, offset, whence), brahma::POSIX);
 
@@ -85,11 +87,14 @@ GOTCHA_MACRO(lseek64, off64_t, (int fd, off64_t offset, int whence), (fd, offset
 
 GOTCHA_MACRO(pread, ssize_t, (int fd, void * buf, size_t count, off_t offset), (fd, buf, count, offset), brahma::POSIX);
 
-GOTCHA_MACRO(pread64, ssize_t, (int fd, void * buf, size_t count, off64_t offset), (fd, buf, count, offset), brahma::POSIX);
+GOTCHA_MACRO(pread64, ssize_t, (int fd, void * buf, size_t count, off64_t offset), (fd, buf, count, offset),
+             brahma::POSIX);
 
-GOTCHA_MACRO(pwrite, ssize_t, (int fd, const void *buf, size_t count, off_t offset), (fd, buf, count, offset), brahma::POSIX);
+GOTCHA_MACRO(pwrite, ssize_t, (int fd, const void *buf, size_t count, off_t offset), (fd, buf, count, offset),
+             brahma::POSIX);
 
-GOTCHA_MACRO(pwrite64, ssize_t, (int fd, const void *buf, size_t count, off64_t offset), (fd, buf, count, offset), brahma::POSIX);
+GOTCHA_MACRO(pwrite64, ssize_t, (int fd, const void *buf, size_t count, off64_t offset), (fd, buf, count, offset),
+             brahma::POSIX);
 
 GOTCHA_MACRO(readv, ssize_t, (int fd, const iovec *iov, int iovcnt), (fd, iov, iovcnt), brahma::POSIX);
 
@@ -153,19 +158,24 @@ namespace brahma {
     };
 
     ssize_t POSIX::pread(int fd, void *buf, size_t count, off_t offset) {
-        BRAHMA_UNWRAPPED_FUNC(pread, ssize_t, (fd, buf, count, offset));};
+        BRAHMA_UNWRAPPED_FUNC(pread, ssize_t, (fd, buf, count, offset));
+    };
 
     ssize_t POSIX::pread64(int fd, void *buf, size_t count, off64_t offset) {
-        BRAHMA_UNWRAPPED_FUNC(pread64, ssize_t, (fd, buf, count, offset));};
+        BRAHMA_UNWRAPPED_FUNC(pread64, ssize_t, (fd, buf, count, offset));
+    };
 
     ssize_t POSIX::pwrite(int fd, const void *buf, size_t count, off64_t offset) {
-        BRAHMA_UNWRAPPED_FUNC(pwrite, ssize_t, (fd, buf, count, offset));};
+        BRAHMA_UNWRAPPED_FUNC(pwrite, ssize_t, (fd, buf, count, offset));
+    };
 
     ssize_t POSIX::pwrite64(int fd, const void *buf, size_t count, off64_t offset) {
-        BRAHMA_UNWRAPPED_FUNC(pwrite64, ssize_t, (fd, buf, count, offset));};
+        BRAHMA_UNWRAPPED_FUNC(pwrite64, ssize_t, (fd, buf, count, offset));
+    };
 
     ssize_t POSIX::readv(int fd, const struct iovec *iov, int iovcnt) {
-        BRAHMA_UNWRAPPED_FUNC(readv, ssize_t, (fd, iov, iovcnt));};
+        BRAHMA_UNWRAPPED_FUNC(readv, ssize_t, (fd, iov, iovcnt));
+    };
 
     ssize_t POSIX::writev(int fd, const struct iovec *iov, int iovcnt) {
         BRAHMA_UNWRAPPED_FUNC(writev, ssize_t, (fd, iov, iovcnt));

@@ -6,7 +6,7 @@
 #define BRAHMA_INTERCEPTOR_H
 
 #include <gotcha/gotcha.h>
-#include <brahma/singleton.h>
+#include <memory>
 
 const int MAX_API_COUNT = 1024;
 static gotcha_binding_t bindings[MAX_API_COUNT];
@@ -33,12 +33,16 @@ ret result = name##_wrappee args; \
 return result;
 
 int update_posix();
+
 int update_stdio();
+
+int update_mpiio();
 
 int bind_functions() {
     current_api_index = 0;
     update_posix();
     update_stdio();
+    update_mpiio();
     return 0;
 }
 
