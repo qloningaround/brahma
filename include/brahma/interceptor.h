@@ -9,19 +9,21 @@
 
 #include <memory>
 
-const int MAX_API_COUNT = 1024;
-static gotcha_binding_t bindings[MAX_API_COUNT];
-static int current_api_index = 0;
-#define GOTCHA_BINDING_MACRO(fname)                                     \
-  bindings[current_api_index].name = #fname;                            \
-  bindings[current_api_index].wrapper_pointer = (void*)fname##_wrapper; \
-  bindings[current_api_index].function_handle = &fname##_handle;        \
-  current_api_index++;
+#define GOTCHA_BINDING_MACRO(fname)                                 \
+  bindings[binding_index].name = #fname;                            \
+  bindings[binding_index].wrapper_pointer = (void*)fname##_wrapper; \
+  bindings[binding_index].function_handle = &fname##_handle;        \
+  binding_index++;
 
+#define GOTCHA_MACRO_TYPEDEF(name, ret, args, args_val, class_name) \
+  typedef ret(*name##_fptr) args;                                   \
+  inline ret name##_wrapper args {                                  \
+    return class_name::get_instance()->name args_val;               \
+  };                                                                \
+  gotcha_wrappee_handle_t get_##name##_handle();
 #define GOTCHA_MACRO(name, ret, args, args_val, class_name) \
-  typedef ret(*name##_fptr) args;                           \
-  static gotcha_wrappee_handle_t name##_handle;             \
-  ret name##_wrapper args { return class_name::get_instance()->name args_val; };
+  gotcha_wrappee_handle_t name##_handle;                    \
+  gotcha_wrappee_handle_t get_##name##_handle() { return name##_handle; }
 
 #define BRAHMA_WRAPPER(name) name##_wrapper;
 
@@ -32,21 +34,24 @@ static int current_api_index = 0;
   ret result = name##_wrappee args;                                            \
   return result;
 
-#define BRAHMA_MAP_OR_FAIL(func_)                                         \
-  auto __real_##func_ = (func_##_fptr)gotcha_get_wrappee(func_##_handle); \
+#define BRAHMA_MAP_OR_FAIL(func_)                               \
+  auto __real_##func_ =                                         \
+      (func_##_fptr)gotcha_get_wrappee(get_##func_##_handle()); \
   assert(__real_##func_ != NULL)
-int update_posix();
 
-int update_stdio();
+size_t count_posix();
+size_t count_stdio();
+size_t count_mpiio();
+int update_posix(gotcha_binding_t*& bindings, size_t& binding_index);
 
-int update_mpiio();
+int update_stdio(gotcha_binding_t*& bindings, size_t& binding_index);
 
-int bind_functions() {
-  current_api_index = 0;
-  update_posix();
-  update_stdio();
-  update_mpiio();
-  return 0;
-}
+int update_mpiio(gotcha_binding_t*& bindings, size_t& binding_index);
+
+extern int brahma_bind_functions();
+extern int brahma_get_binding(gotcha_binding_t*& bindings,
+                              size_t& binding_count);
+
+extern int free_bindings();
 
 #endif  // BRAHMA_INTERCEPTOR_H
