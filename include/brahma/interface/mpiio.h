@@ -19,6 +19,7 @@ class MPIIO {
     if (my_instance != nullptr) {
       return my_instance;
     } else {
+      BRAHMA_LOGERROR("STDIO class not intercepted but used", "");
       throw std::runtime_error("STDIO class not intercepted but used");
     }
   }
@@ -28,6 +29,7 @@ class MPIIO {
       my_instance = instance_i;
       return 0;
     } else {
+      BRAHMA_LOGERROR("instance_i is not set", "");
       throw std::runtime_error("instance_i is not set");
     }
   }

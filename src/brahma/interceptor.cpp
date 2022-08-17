@@ -18,7 +18,7 @@ extern int brahma_bind_functions() {
     update_stdio(brahma::bindings, current_index);
     update_mpiio(brahma::bindings, current_index);
     if (current_index != brahma::total_apis) {
-      fprintf(stderr, "brahma_bind_functions failed\n");
+      BRAHMA_LOGERROR("brahma_bind_functions failed", "");
       return -1;
     }
   }

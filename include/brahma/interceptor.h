@@ -5,9 +5,19 @@
 #ifndef BRAHMA_INTERCEPTOR_H
 #define BRAHMA_INTERCEPTOR_H
 
+#include <cpp-logger/logger.h>
 #include <gotcha/gotcha.h>
 
 #include <memory>
+#define BRAHMA_LOGGER cpplogger::Logger::Instance("BRAHMA")
+#define BRAHMA_LOGINFO(format, ...) \
+  BRAHMA_LOGGER->log(cpplogger::LOG_INFO, format, __VA_ARGS__);
+#define BRAHMA_LOGWARN(format, ...) \
+  BRAHMA_LOGGER->log(cpplogger::LOG_WARN, format, __VA_ARGS__);
+#define BRAHMA_LOGERROR(format, ...) \
+  BRAHMA_LOGGER->log(cpplogger::LOG_ERROR, format, __VA_ARGS__);
+#define BRAHMA_LOGPRINT(format, ...) \
+  BRAHMA_LOGGER->log(cpplogger::LOG_PRINT, format, __VA_ARGS__);
 
 #define GOTCHA_BINDING_MACRO(fname)                                 \
   bindings[binding_index].name = #fname;                            \
@@ -28,8 +38,8 @@
 #define BRAHMA_WRAPPER(name) name##_wrapper;
 
 #define BRAHMA_UNWRAPPED_FUNC(name, ret, args)                                 \
-  fprintf(stderr, "[BRAHMA]\tFunction %s() not wrapped. Calling Original.\n",  \
-          #name);                                                              \
+  BRAHMA_LOGERROR("[BRAHMA]\tFunction %s() not wrapped. Calling Original.\n",  \
+                  #name);                                                      \
   name##_fptr name##_wrappee = (name##_fptr)gotcha_get_wrappee(name##_handle); \
   ret result = name##_wrappee args;                                            \
   return result;

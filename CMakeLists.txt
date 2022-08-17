@@ -201,6 +201,15 @@ install(EXPORT
         )
 set(DEPENDENCY_LIB)
 
+find_package(cpp-logger REQUIRED)
+if (${CPP_LOGGER_FOUND})
+    message(STATUS "[CPP_LOGGER] found cpp-logger at ${CPP_LOGGER_INCLUDE_DIRS}")
+    include_directories(${CPP_LOGGER_INCLUDE_DIRS})
+    set(DEPENDENCY_LIB ${DEPENDENCY_LIB} ${CPP_LOGGER_LIBRARIES})
+else ()
+    message(FATAL_ERROR "-- [CPP_LOGGER] is needed for ${PROJECT_NAME} build")
+endif ()
+
 # find Gotcha
 find_package(gotcha REQUIRED)
 if (${gotcha_FOUND})
