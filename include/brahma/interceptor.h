@@ -38,8 +38,8 @@
 #define BRAHMA_WRAPPER(name) name##_wrapper;
 
 #define BRAHMA_UNWRAPPED_FUNC(name, ret, args)                                 \
-  BRAHMA_LOGERROR("[BRAHMA]\tFunction %s() not wrapped. Calling Original.\n",  \
-                  #name);                                                      \
+  BRAHMA_LOGINFO("[BRAHMA]\tFunction %s() not wrapped. Calling Original.\n",   \
+                 #name);                                                       \
   name##_fptr name##_wrappee = (name##_fptr)gotcha_get_wrappee(name##_handle); \
   ret result = name##_wrappee args;                                            \
   return result;
