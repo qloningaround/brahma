@@ -5,7 +5,6 @@
 #ifndef BRAHMA_POSIX_H
 #define BRAHMA_POSIX_H
 
-#include <bits/types/struct_iovec.h>
 #include <unistd.h>
 
 #include <cstdlib>
@@ -63,10 +62,6 @@ class POSIX {
   virtual ssize_t pwrite64(int fd, const void *buf, size_t count,
                            off64_t offset);
 
-  virtual ssize_t readv(int fd, const struct iovec *iov, int iovcnt);
-
-  virtual ssize_t writev(int fd, const struct iovec *iov, int iovcnt);
-
   virtual int fsync(int fd);
 
   virtual int fdatasync(int fd);
@@ -112,12 +107,6 @@ GOTCHA_MACRO_TYPEDEF(pwrite, ssize_t,
 GOTCHA_MACRO_TYPEDEF(pwrite64, ssize_t,
                      (int fd, const void *buf, size_t count, off64_t offset),
                      (fd, buf, count, offset), brahma::POSIX);
-
-GOTCHA_MACRO_TYPEDEF(readv, ssize_t, (int fd, const iovec *iov, int iovcnt),
-                     (fd, iov, iovcnt), brahma::POSIX);
-
-GOTCHA_MACRO_TYPEDEF(writev, ssize_t, (int fd, const iovec *iov, int iovcnt),
-                     (fd, iov, iovcnt), brahma::POSIX);
 
 GOTCHA_MACRO_TYPEDEF(fsync, int, (int fd), (fd), brahma::POSIX);
 

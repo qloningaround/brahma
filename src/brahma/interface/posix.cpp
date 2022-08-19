@@ -40,12 +40,6 @@ GOTCHA_MACRO(pwrite64, ssize_t,
              (int fd, const void *buf, size_t count, off64_t offset),
              (fd, buf, count, offset), brahma::POSIX);
 
-GOTCHA_MACRO(readv, ssize_t, (int fd, const iovec *iov, int iovcnt),
-             (fd, iov, iovcnt), brahma::POSIX);
-
-GOTCHA_MACRO(writev, ssize_t, (int fd, const iovec *iov, int iovcnt),
-             (fd, iov, iovcnt), brahma::POSIX);
-
 GOTCHA_MACRO(fsync, int, (int fd), (fd), brahma::POSIX);
 
 GOTCHA_MACRO(fdatasync, int, (int fd), (fd), brahma::POSIX);
@@ -62,14 +56,12 @@ int update_posix(gotcha_binding_t *&bindings, size_t &binding_index) {
   GOTCHA_BINDING_MACRO(pread64);
   GOTCHA_BINDING_MACRO(pwrite);
   GOTCHA_BINDING_MACRO(pwrite64);
-  GOTCHA_BINDING_MACRO(readv);
-  GOTCHA_BINDING_MACRO(writev);
   GOTCHA_BINDING_MACRO(fsync);
   GOTCHA_BINDING_MACRO(fdatasync);
   return 0;
 }
 
-size_t count_posix() { return 16; }
+size_t count_posix() { return 14; }
 
 namespace brahma {
 std::shared_ptr<POSIX> POSIX::my_instance = nullptr;
@@ -117,14 +109,6 @@ ssize_t POSIX::pwrite(int fd, const void *buf, size_t count, off64_t offset) {
 
 ssize_t POSIX::pwrite64(int fd, const void *buf, size_t count, off64_t offset) {
   BRAHMA_UNWRAPPED_FUNC(pwrite64, ssize_t, (fd, buf, count, offset));
-};
-
-ssize_t POSIX::readv(int fd, const struct iovec *iov, int iovcnt) {
-  BRAHMA_UNWRAPPED_FUNC(readv, ssize_t, (fd, iov, iovcnt));
-};
-
-ssize_t POSIX::writev(int fd, const struct iovec *iov, int iovcnt) {
-  BRAHMA_UNWRAPPED_FUNC(writev, ssize_t, (fd, iov, iovcnt));
 };
 
 int POSIX::fsync(int fd) { BRAHMA_UNWRAPPED_FUNC(fsync, int, (fd)); }
