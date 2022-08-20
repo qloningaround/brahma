@@ -233,8 +233,8 @@ endif ()
 
 target_link_libraries(${PROJECT_NAME} ${DEPENDENCY_LIB})
 
-option(BUILD_TEST "Build the unit tests" OFF)
-if (BUILD_TEST)
+option(BRAHMA_BUILD_TEST "Build the unit tests" OFF)
+if (BRAHMA_BUILD_TEST)
     enable_testing()
     add_subdirectory(test)
 endif ()
