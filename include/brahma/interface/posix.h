@@ -10,9 +10,10 @@
 #include <cstdlib>
 
 #include "brahma/interceptor.h"
+#include "interface.h"
 
 namespace brahma {
-class POSIX {
+class POSIX :public Interface {
  private:
   static std::shared_ptr<POSIX> my_instance;
 
@@ -25,7 +26,7 @@ class POSIX {
       throw std::runtime_error("POSIX class not intercepted but used");
     }
   }
-  POSIX() = default;
+  POSIX():Interface(){}
   virtual ~POSIX() = default;
   static int set_instance(std::shared_ptr<POSIX> instance_i) {
     if (instance_i != nullptr) {

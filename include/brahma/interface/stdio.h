@@ -6,11 +6,11 @@
 #define BRAHMA_STDIO_H
 
 #include <cstdio>
-
+#include "interface.h"
 #include "brahma/interceptor.h"
 
 namespace brahma {
-class STDIO {
+class STDIO:public Interface {
  private:
   static std::shared_ptr<STDIO> my_instance;
 
@@ -23,7 +23,7 @@ class STDIO {
       throw std::runtime_error("STDIO class not intercepted but used");
     }
   }
-  STDIO() = default;
+  STDIO():Interface(){}
   virtual ~STDIO() = default;
   static int set_instance(std::shared_ptr<STDIO> instance_i) {
     if (instance_i != nullptr) {

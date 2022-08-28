@@ -14,7 +14,8 @@ set(BRAHMA_PACKAGE_STRING "${BRAHMA_PACKAGE_NAME} ${BRAHMA_PACKAGE_VERSION}")
 set(BRAHMA_PACKAGE_TARNAME "${BRAHMA_PACKAGE}")
 cmake_minimum_required(VERSION 3.0)
 set(CMAKE_PREFIX_PATH ${CMAKE_PREFIX_PATH} ${CMAKE_CURRENT_SOURCE_DIR}/dependency/.spack-env/view ${CMAKE_BINARY_DIR}/lib/cmake)
-set(CMAKE_CXX_STANDARD 14)
+
+set(CMAKE_CXX_STANDARD 17)
 set(BRAHMA_CMAKE_DIR ${CMAKE_SOURCE_DIR}/CMake ${CMAKE_BINARY_DIR}/lib/cmake)
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${BRAHMA_CMAKE_DIR})
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/src)
@@ -23,9 +24,14 @@ set(BRAHMA_SRC ${CMAKE_CURRENT_SOURCE_DIR}/src/brahma/brahma.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/src/brahma/interface/posix.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/src/brahma/interface/stdio.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/src/brahma/interface/mpiio.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/brahma/interceptor.cpp)
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/brahma/interceptor.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/brahma/interface/interface.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/brahma/interface/interface_utility.cpp)
 set(BRAHMA_PUBLIC_INCLUDE ${CMAKE_CURRENT_SOURCE_DIR}/include/brahma/interceptor.h
         ${CMAKE_CURRENT_SOURCE_DIR}/include/brahma/brahma.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/include/brahma/interface/interface.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/include/brahma/interface/interface_utility.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/include/brahma/enumeration.h
         ${CMAKE_CURRENT_SOURCE_DIR}/include/brahma/interface/posix.h
         ${CMAKE_CURRENT_SOURCE_DIR}/include/brahma/interface/stdio.h
         ${CMAKE_CURRENT_SOURCE_DIR}/include/brahma/interface/mpiio.h)

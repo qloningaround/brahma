@@ -6,15 +6,16 @@
 #define BRAHMA_MPIIO_H
 
 #include <mpi.h>
-
+#include "interface.h"
 #include "brahma/interceptor.h"
 
 namespace brahma {
-class MPIIO {
+class MPIIO :public brahma::Interface{
  private:
   static std::shared_ptr<MPIIO> my_instance;
 
  public:
+  MPIIO():Interface(){}
   static std::shared_ptr<MPIIO> get_instance() {
     if (my_instance != nullptr) {
       return my_instance;
