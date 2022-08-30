@@ -16,12 +16,11 @@ class STDIO:public Interface {
 
  public:
   static std::shared_ptr<STDIO> get_instance() {
-    if (my_instance != nullptr) {
-      return my_instance;
-    } else {
+    if (my_instance == nullptr) {
       BRAHMA_LOGERROR("STDIO class not intercepted but used", "");
-      throw std::runtime_error("STDIO class not intercepted but used");
+      my_instance = std::make_shared<STDIO>();
     }
+    return my_instance;
   }
   STDIO():Interface(){}
   virtual ~STDIO() = default;

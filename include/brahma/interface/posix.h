@@ -19,12 +19,11 @@ class POSIX :public Interface {
 
  public:
   static std::shared_ptr<POSIX> get_instance() {
-    if (my_instance != nullptr) {
-      return my_instance;
-    } else {
+    if (my_instance == nullptr) {
       BRAHMA_LOGERROR("POSIX class not intercepted but used", "");
-      throw std::runtime_error("POSIX class not intercepted but used");
+      my_instance = std::make_shared<POSIX>();
     }
+    return my_instance;
   }
   POSIX():Interface(){}
   virtual ~POSIX() = default;
