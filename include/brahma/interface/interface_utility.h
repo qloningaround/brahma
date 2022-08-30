@@ -23,10 +23,9 @@ class InterfaceUtility {
       excludes_files = std::unordered_set<std::string>();
     }else {
       excludes_files = interface_iter->second;
-      excluded_filenames.erase(interface_iter);
     }
     excludes_files.emplace(filename);
-    excluded_filenames.emplace(interface, excludes_files);
+    excluded_filenames.insert_or_assign(interface, excludes_files);
   }
   inline void include_file(const char *filename,
                            brahma::InterfaceType interface) {

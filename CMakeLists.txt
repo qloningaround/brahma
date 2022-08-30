@@ -32,6 +32,7 @@ set(BRAHMA_PUBLIC_INCLUDE ${CMAKE_CURRENT_SOURCE_DIR}/include/brahma/interceptor
         ${CMAKE_CURRENT_SOURCE_DIR}/include/brahma/interface/interface.h
         ${CMAKE_CURRENT_SOURCE_DIR}/include/brahma/interface/interface_utility.h
         ${CMAKE_CURRENT_SOURCE_DIR}/include/brahma/enumeration.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/include/brahma/singleton.h
         ${CMAKE_CURRENT_SOURCE_DIR}/include/brahma/interface/posix.h
         ${CMAKE_CURRENT_SOURCE_DIR}/include/brahma/interface/stdio.h
         ${CMAKE_CURRENT_SOURCE_DIR}/include/brahma/interface/mpiio.h)
