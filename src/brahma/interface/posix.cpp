@@ -67,51 +67,71 @@ namespace brahma {
 std::shared_ptr<POSIX> POSIX::my_instance = nullptr;
 int POSIX::open(const char *pathname, int flags, mode_t mode) {
   BRAHMA_UNWRAPPED_FUNC(open, int, (pathname, flags, mode));
+  return result;
 }
 
 int POSIX::creat64(const char *path, mode_t mode) {
   BRAHMA_UNWRAPPED_FUNC(creat64, int, (path, mode));
+  return result;
 }
 
 int POSIX::open64(const char *path, int flags, mode_t mode) {
   BRAHMA_UNWRAPPED_FUNC(open64, int, (path, flags, mode));
+  return result;
 }
 
-int POSIX::close(int fd) { BRAHMA_UNWRAPPED_FUNC(close, int, (fd)); }
+int POSIX::close(int fd) {
+  BRAHMA_UNWRAPPED_FUNC(close, int, (fd));
+  return result;
+}
 
 ssize_t POSIX::write(int fd, const void *buf, size_t count) {
   BRAHMA_UNWRAPPED_FUNC(write, ssize_t, (fd, buf, count));
+  return result;
 };
 
 ssize_t POSIX::read(int fd, void *buf, size_t count) {
   BRAHMA_UNWRAPPED_FUNC(read, ssize_t, (fd, buf, count));
+  return result;
 };
 
 off_t POSIX::lseek(int fd, off_t offset, int whence) {
   BRAHMA_UNWRAPPED_FUNC(lseek, off_t, (fd, offset, whence));
+  return result;
 };
 
 off64_t POSIX::lseek64(int fd, off64_t offset, int whence) {
   BRAHMA_UNWRAPPED_FUNC(lseek, off64_t, (fd, offset, whence));
+  return result;
 };
 
 ssize_t POSIX::pread(int fd, void *buf, size_t count, off_t offset) {
   BRAHMA_UNWRAPPED_FUNC(pread, ssize_t, (fd, buf, count, offset));
+  return result;
 };
 
 ssize_t POSIX::pread64(int fd, void *buf, size_t count, off64_t offset) {
   BRAHMA_UNWRAPPED_FUNC(pread64, ssize_t, (fd, buf, count, offset));
+  return result;
 };
 
 ssize_t POSIX::pwrite(int fd, const void *buf, size_t count, off64_t offset) {
   BRAHMA_UNWRAPPED_FUNC(pwrite, ssize_t, (fd, buf, count, offset));
+  return result;
 };
 
 ssize_t POSIX::pwrite64(int fd, const void *buf, size_t count, off64_t offset) {
   BRAHMA_UNWRAPPED_FUNC(pwrite64, ssize_t, (fd, buf, count, offset));
+  return result;
 };
 
-int POSIX::fsync(int fd) { BRAHMA_UNWRAPPED_FUNC(fsync, int, (fd)); }
+int POSIX::fsync(int fd) {
+  BRAHMA_UNWRAPPED_FUNC(fsync, int, (fd));
+  return result;
+}
 
-int POSIX::fdatasync(int fd) { BRAHMA_UNWRAPPED_FUNC(fdatasync, int, (fd)); }
+int POSIX::fdatasync(int fd) {
+  BRAHMA_UNWRAPPED_FUNC(fdatasync, int, (fd));
+  return result;
+}
 }  // namespace brahma

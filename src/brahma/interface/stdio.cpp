@@ -39,27 +39,36 @@ namespace brahma {
 std::shared_ptr<STDIO> STDIO::my_instance = nullptr;
 FILE *STDIO::fopen(const char *path, const char *mode) {
   BRAHMA_UNWRAPPED_FUNC(fopen, FILE *, (path, mode));
+  return result;
 };
 
 FILE *STDIO::fopen64(const char *path, const char *mode) {
   BRAHMA_UNWRAPPED_FUNC(fopen64, FILE *, (path, mode));
+  return result;
 };
 
-int STDIO::fclose(FILE *fp) { BRAHMA_UNWRAPPED_FUNC(fclose, int, (fp)); };
+int STDIO::fclose(FILE *fp) {
+  BRAHMA_UNWRAPPED_FUNC(fclose, int, (fp));
+  return result;
+};
 
 size_t STDIO::fread(void *ptr, size_t size, size_t nmemb, FILE *stream) {
   BRAHMA_UNWRAPPED_FUNC(fread, size_t, (ptr, size, nmemb, stream));
+  return result;
 };
 
 size_t STDIO::fwrite(const void *ptr, size_t size, size_t nmemb, FILE *stream) {
   BRAHMA_UNWRAPPED_FUNC(fwrite, size_t, (ptr, size, nmemb, stream));
+  return result;
 };
 
 long STDIO::ftell(FILE *stream) {
   BRAHMA_UNWRAPPED_FUNC(ftell, long, (stream));
+  return result;
 };
 
 int STDIO::fseek(FILE *stream, long offset, int whence) {
   BRAHMA_UNWRAPPED_FUNC(fseek, int, (stream, offset, whence));
+  return result;
 };
 }  // namespace brahma
