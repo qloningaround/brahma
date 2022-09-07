@@ -18,7 +18,7 @@ class MPIIO :public brahma::Interface{
   MPIIO():Interface(){}
   static std::shared_ptr<MPIIO> get_instance() {
     if (my_instance == nullptr) {
-      BRAHMA_LOGERROR("MPIIO class not intercepted but used", "");
+      BRAHMA_LOGINFO("MPIIO class not intercepted but used", "");
       my_instance = std::make_shared<MPIIO>();
     }
     return my_instance;
@@ -128,6 +128,7 @@ class MPIIO :public brahma::Interface{
 };
 
 }  // namespace brahma
+
 GOTCHA_MACRO_TYPEDEF(MPI_File_close, int, (MPI_File * fh), (fh),
                      brahma::MPIIO);
 

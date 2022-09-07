@@ -10,13 +10,14 @@ size_t total_apis = 0;
 
 extern int brahma_bind_functions() {
   if (brahma::bindings == nullptr) {
-    brahma::total_apis = count_posix() + count_mpiio() + count_stdio();
+    brahma::total_apis = count_posix() + count_mpiio() + count_stdio()+ count_mpi();
     brahma::bindings = static_cast<gotcha_binding_t*>(
         calloc(brahma::total_apis, sizeof(gotcha_binding_t)));
     size_t current_index = 0;
     update_posix(brahma::bindings, current_index);
     update_stdio(brahma::bindings, current_index);
     update_mpiio(brahma::bindings, current_index);
+    update_mpi(brahma::bindings, current_index);
     if (current_index != brahma::total_apis) {
       BRAHMA_LOGERROR("brahma_bind_functions failed", "");
       return -1;

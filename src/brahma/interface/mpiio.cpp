@@ -2,7 +2,6 @@
 // Created by hariharan on 8/16/22.
 //
 #include <brahma/interface/mpiio.h>
-
 GOTCHA_MACRO(MPI_File_close, int, (MPI_File * fh), (fh), brahma::MPIIO);
 
 GOTCHA_MACRO(MPI_File_set_size, int, (MPI_File fh, MPI_Offset size),
@@ -131,6 +130,7 @@ GOTCHA_MACRO(MPI_File_write_shared, int,
               MPI_Status *status),
              (fh, buf, count, datatype, status), brahma::MPIIO);
 int update_mpiio(gotcha_binding_t *&bindings, size_t &binding_index) {
+
   GOTCHA_BINDING_MACRO(MPI_File_close);
   GOTCHA_BINDING_MACRO(MPI_File_set_size);
   GOTCHA_BINDING_MACRO(MPI_File_iread_at);

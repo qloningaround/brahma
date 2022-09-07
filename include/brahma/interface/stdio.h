@@ -17,7 +17,7 @@ class STDIO:public Interface {
  public:
   static std::shared_ptr<STDIO> get_instance() {
     if (my_instance == nullptr) {
-      BRAHMA_LOGERROR("STDIO class not intercepted but used", "");
+      BRAHMA_LOGINFO("STDIO class not intercepted but used", "");
       my_instance = std::make_shared<STDIO>();
     }
     return my_instance;

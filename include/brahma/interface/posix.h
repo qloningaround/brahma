@@ -20,7 +20,7 @@ class POSIX :public Interface {
  public:
   static std::shared_ptr<POSIX> get_instance() {
     if (my_instance == nullptr) {
-      BRAHMA_LOGERROR("POSIX class not intercepted but used", "");
+      BRAHMA_LOGINFO("POSIX class not intercepted but used", "");
       my_instance = std::make_shared<POSIX>();
     }
     return my_instance;

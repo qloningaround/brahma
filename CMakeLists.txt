@@ -24,6 +24,7 @@ set(BRAHMA_SRC ${CMAKE_CURRENT_SOURCE_DIR}/src/brahma/brahma.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/src/brahma/interface/posix.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/src/brahma/interface/stdio.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/src/brahma/interface/mpiio.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/brahma/mpi.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/src/brahma/interceptor.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/src/brahma/interface/interface.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/src/brahma/interface/interface_utility.cpp)
@@ -35,7 +36,8 @@ set(BRAHMA_PUBLIC_INCLUDE ${CMAKE_CURRENT_SOURCE_DIR}/include/brahma/interceptor
         ${CMAKE_CURRENT_SOURCE_DIR}/include/brahma/singleton.h
         ${CMAKE_CURRENT_SOURCE_DIR}/include/brahma/interface/posix.h
         ${CMAKE_CURRENT_SOURCE_DIR}/include/brahma/interface/stdio.h
-        ${CMAKE_CURRENT_SOURCE_DIR}/include/brahma/interface/mpiio.h)
+        ${CMAKE_CURRENT_SOURCE_DIR}/include/brahma/interface/mpiio.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/include/brahma/mpi.h)
 set(BRAHMA_PRIVATE_INCLUDE)
 add_library(${PROJECT_NAME} SHARED)
 message(STATUS ${CMAKE_PREFIX_PATH})
