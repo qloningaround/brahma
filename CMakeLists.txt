@@ -15,16 +15,28 @@ set(BRAHMA_PACKAGE_TARNAME "${BRAHMA_PACKAGE}")
 cmake_minimum_required(VERSION 3.0)
 set(CMAKE_PREFIX_PATH ${CMAKE_PREFIX_PATH} ${CMAKE_CURRENT_SOURCE_DIR}/dependency/.spack-env/view ${CMAKE_BINARY_DIR}/lib/cmake)
 
+#------------------------------------------------------------------------------
+# Build options
+#------------------------------------------------------------------------------
+option(BUILD_WITH_MPI "Build with mpi and mpiio interception libraries." OFF)
+
+
+
 set(CMAKE_CXX_STANDARD 17)
 set(BRAHMA_CMAKE_DIR ${CMAKE_SOURCE_DIR}/CMake ${CMAKE_BINARY_DIR}/lib/cmake)
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${BRAHMA_CMAKE_DIR})
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/src)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include)
+
+set(BRAHMA_MPI_SRC ${CMAKE_CURRENT_SOURCE_DIR}/src/brahma/interface/mpiio.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/brahma/mpi.cpp)
+set(BRAHMA_MPI_INCLUDE
+        ${CMAKE_CURRENT_SOURCE_DIR}/include/brahma/interface/mpiio.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/include/brahma/mpi.h)
+
 set(BRAHMA_SRC ${CMAKE_CURRENT_SOURCE_DIR}/src/brahma/brahma.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/src/brahma/interface/posix.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/src/brahma/interface/stdio.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/brahma/interface/mpiio.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/brahma/mpi.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/src/brahma/interceptor.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/src/brahma/interface/interface.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/src/brahma/interface/interface_utility.cpp)
@@ -35,9 +47,12 @@ set(BRAHMA_PUBLIC_INCLUDE ${CMAKE_CURRENT_SOURCE_DIR}/include/brahma/interceptor
         ${CMAKE_CURRENT_SOURCE_DIR}/include/brahma/enumeration.h
         ${CMAKE_CURRENT_SOURCE_DIR}/include/brahma/singleton.h
         ${CMAKE_CURRENT_SOURCE_DIR}/include/brahma/interface/posix.h
-        ${CMAKE_CURRENT_SOURCE_DIR}/include/brahma/interface/stdio.h
-        ${CMAKE_CURRENT_SOURCE_DIR}/include/brahma/interface/mpiio.h
-        ${CMAKE_CURRENT_SOURCE_DIR}/include/brahma/mpi.h)
+        ${CMAKE_CURRENT_SOURCE_DIR}/include/brahma/interface/stdio.h)
+if(BUILD_WITH_MPI)
+    set(BRAHMA_SRC ${BRAHMA_SRC} ${BRAHMA_MPI_SRC})
+    set(BRAHMA_PUBLIC_INCLUDE ${BRAHMA_PUBLIC_INCLUDE} ${BRAHMA_MPI_INCLUDE})
+    add_definitions(-DCOMPILE_MPI)
+endif()
 set(BRAHMA_PRIVATE_INCLUDE)
 add_library(${PROJECT_NAME} SHARED)
 message(STATUS ${CMAKE_PREFIX_PATH})
@@ -212,32 +227,33 @@ set(DEPENDENCY_LIB)
 
 find_package(cpp-logger REQUIRED)
 if (${CPP_LOGGER_FOUND})
-    message(STATUS "[CPP_LOGGER] found cpp-logger at ${CPP_LOGGER_INCLUDE_DIRS}")
+    message(STATUS "[Brahma] found cpp-logger at ${CPP_LOGGER_INCLUDE_DIRS}")
     include_directories(${CPP_LOGGER_INCLUDE_DIRS})
     set(DEPENDENCY_LIB ${DEPENDENCY_LIB} ${CPP_LOGGER_LIBRARIES})
 else ()
-    message(FATAL_ERROR "-- [CPP_LOGGER] is needed for ${PROJECT_NAME} build")
+    message(FATAL_ERROR "-- [Brahma] cpp-logger is needed for ${PROJECT_NAME} build")
 endif ()
 
 # find Gotcha
 find_package(gotcha REQUIRED)
 if (${gotcha_FOUND})
-    message(STATUS "[Gotcha] found gotcha at ${gotcha_INCLUDE_DIRS}")
+    message(STATUS "[Brahma] found gotcha at ${gotcha_INCLUDE_DIRS}")
     include_directories(${gotcha_INCLUDE_DIRS})
     set(DEPENDENCY_LIB ${DEPENDENCY_LIB} ${gotcha_LIBRARIES})
 else ()
-    message(FATAL_ERROR "-- [Gotcha] is needed for ${PROJECT_NAME} build")
+    message(FATAL_ERROR "-- [Brahma] gotcha is needed for ${PROJECT_NAME} build")
 endif ()
-
-# find MPI
-find_package(MPI COMPONENTS CXX REQUIRED)
-if (MPI_FOUND)
-    message(STATUS "[MPI] found mpi.h at ${MPI_CXX_INCLUDE_DIRS}")
-    include_directories(${MPI_CXX_INCLUDE_DIRS})
-    set(DEPENDENCY_LIB ${DEPENDENCY_LIB} ${MPI_CXX_LIBRARIES})
-else ()
-    message(FATAL_ERROR "-- [MPI] is needed for ${PROJECT_NAME} build")
-endif ()
+if(BUILD_WITH_MPI)
+    # find MPI
+    find_package(MPI COMPONENTS CXX REQUIRED)
+    if (MPI_FOUND)
+        message(STATUS "[Brahma] found mpi.h at ${MPI_CXX_INCLUDE_DIRS}")
+        include_directories(${MPI_CXX_INCLUDE_DIRS})
+        set(DEPENDENCY_LIB ${DEPENDENCY_LIB} ${MPI_CXX_LIBRARIES})
+    else ()
+        message(FATAL_ERROR "-- [Brahma] mpi is needed for ${PROJECT_NAME} build")
+    endif ()
+endif()
 
 
 target_link_libraries(${PROJECT_NAME} ${DEPENDENCY_LIB})

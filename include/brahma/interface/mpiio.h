@@ -4,7 +4,7 @@
 
 #ifndef BRAHMA_MPIIO_H
 #define BRAHMA_MPIIO_H
-
+#ifdef COMPILE_MPI
 #include <mpi.h>
 #include "interface.h"
 #include "brahma/interceptor.h"
@@ -261,4 +261,6 @@ GOTCHA_MACRO_TYPEDEF(MPI_File_write_shared, int,
                      (MPI_File fh, const void *buf, int count,
                       MPI_Datatype datatype, MPI_Status *status),
                      (fh, buf, count, datatype, status), brahma::MPIIO);
+
+#endif // COMPILE_MPI
 #endif  // BRAHMA_MPIIO_H

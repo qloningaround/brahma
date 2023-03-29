@@ -2,6 +2,7 @@
 // Created by hariharan on 8/16/22.
 //
 #include <brahma/interface/mpiio.h>
+#ifdef COMPILE_MPI
 GOTCHA_MACRO(MPI_File_close, int, (MPI_File * fh), (fh), brahma::MPIIO);
 
 GOTCHA_MACRO(MPI_File_set_size, int, (MPI_File fh, MPI_Offset size),
@@ -370,3 +371,4 @@ int MPIIO::MPI_File_write_shared(MPI_File fh, const void *buf, int count,
   return result;
 }
 }  // namespace brahma
+#endif // COMPILE_MPI

@@ -4,8 +4,9 @@
 
 #ifndef BRAHMA_BRAHMA_H
 #define BRAHMA_BRAHMA_H
-
+#ifdef COMPILE_MPI
 #include <brahma/interface/mpiio.h>
+#endif
 #include <brahma/interface/posix.h>
 #include <brahma/interface/stdio.h>
 

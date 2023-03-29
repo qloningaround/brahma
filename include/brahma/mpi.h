@@ -4,7 +4,7 @@
 
 #ifndef BRAHMA_MPI_H
 #define BRAHMA_MPI_H
-
+#ifdef COMPILE_MPI
 #include <mpi.h>
 #include <brahma/interface/interface.h>
 #include "brahma/interceptor.h"
@@ -41,7 +41,5 @@ namespace brahma {
 GOTCHA_MACRO_TYPEDEF(MPI_Init, int, (int *argc, char ***argv), (argc, argv),
 brahma::MPI);
 GOTCHA_MACRO_TYPEDEF(MPI_Finalize, int, (), (), brahma::MPI);
-
-
-
+#endif // COMPILE_MPI
 #endif // BRAHMA_MPI_H

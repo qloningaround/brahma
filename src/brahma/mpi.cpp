@@ -3,6 +3,7 @@
 //
 
 #include <brahma/mpi.h>
+#ifdef COMPILE_MPI
 GOTCHA_MACRO(MPI_Init, int, (int *argc, char ***argv), (argc, argv), brahma::MPI);
 GOTCHA_MACRO(MPI_Finalize, int, (), (), brahma::MPI);
 
@@ -24,3 +25,4 @@ namespace brahma {
     return result;
   }
 }  // namespace brahma
+#endif // COMPILE_MPI
