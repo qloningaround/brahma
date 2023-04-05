@@ -35,19 +35,17 @@ class STDIO:public Interface {
   }
 
   virtual FILE *fopen(const char *path, const char *mode);
-
   virtual FILE *fopen64(const char *path, const char *mode);
-
   virtual int fclose(FILE *fp);
-
   virtual size_t fread(void *ptr, size_t size, size_t nmemb, FILE *stream);
-
   virtual size_t fwrite(const void *ptr, size_t size, size_t nmemb,
                         FILE *stream);
-
   virtual long ftell(FILE *fp);
-
   virtual int fseek(FILE *stream, long offset, int whence);
+  virtual FILE* fdopen(int fd, const char *mode);
+  virtual int fileno(FILE *stream); virtual FILE* tmpfile(void);
+  virtual int fseeko(FILE *stream, off_t offset, int whence);
+  virtual off_t ftello(FILE *stream);
 };
 
 }  // namespace brahma
@@ -71,4 +69,9 @@ GOTCHA_MACRO_TYPEDEF(ftell, long, (FILE * stream), (stream), brahma::STDIO);
 
 GOTCHA_MACRO_TYPEDEF(fseek, int, (FILE * stream, long offset, int whence),
                      (stream, offset, whence), brahma::STDIO);
+GOTCHA_MACRO_TYPEDEF(fdopen, FILE*, (int fd, const char *mode), (fd, mode), brahma::STDIO);
+GOTCHA_MACRO_TYPEDEF(fileno, int, (FILE *stream), (stream), brahma::STDIO);
+GOTCHA_MACRO_TYPEDEF(tmpfile, FILE*, (void), (), brahma::STDIO);
+GOTCHA_MACRO_TYPEDEF(fseeko, int, (FILE *stream, off_t offset, int whence), (stream, offset, whence), brahma::STDIO);
+GOTCHA_MACRO_TYPEDEF(ftello, off_t, (FILE *stream), (stream), brahma::STDIO);
 #endif  // BRAHMA_STDIO_H

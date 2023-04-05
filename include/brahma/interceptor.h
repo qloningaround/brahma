@@ -43,6 +43,11 @@
   name##_fptr name##_wrappee = (name##_fptr)gotcha_get_wrappee(name##_handle); \
   ret result = name##_wrappee args;
 
+#define BRAHMA_UNWRAPPED_FUNC_VOID(name, args)                                 \
+  BRAHMA_LOGINFO("[BRAHMA]\tFunction %s() not wrapped. Calling Original.\n",   \
+                 #name);                                                       \
+  name##_fptr name##_wrappee = (name##_fptr)gotcha_get_wrappee(name##_handle); \
+  name##_wrappee args;
 #define BRAHMA_MAP_OR_FAIL(func_)                               \
   auto __real_##func_ =                                         \
       (func_##_fptr)gotcha_get_wrappee(get_##func_##_handle()); \
