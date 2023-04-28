@@ -56,9 +56,6 @@ endif()
 set(BRAHMA_PRIVATE_INCLUDE)
 add_library(${PROJECT_NAME} SHARED)
 message(STATUS ${CMAKE_PREFIX_PATH})
-add_dependencies(${PROJECT_NAME} cpp-logger)
-add_dependencies(${PROJECT_NAME} brahma)
-add_dependencies(${PROJECT_NAME} gotcha)
 
 target_sources(${PROJECT_NAME}
         PRIVATE
