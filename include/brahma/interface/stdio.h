@@ -6,6 +6,7 @@
 #define BRAHMA_STDIO_H
 
 #include <cstdio>
+#include <stdexcept>
 #include "interface.h"
 #include "brahma/interceptor.h"
 
