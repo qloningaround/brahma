@@ -31,6 +31,16 @@
     return class_name::get_instance()->name args_val;               \
   };                                                                \
   gotcha_wrappee_handle_t get_##name##_handle();
+#define GOTCHA_MACRO_TYPEDEF_VARIADIC(name, ret, args, args_val, start, class_name) \
+  typedef ret(*name##_fptr) args;                                   \
+  inline ret name##_wrapper args {                                           \
+    va_list _args;                                                           \
+    va_start(_args, start);                                                       \
+    ret v = class_name::get_instance()->name args_val;                               \
+    va_end(_args);                                                                   \
+    return v;                            \
+  };                                                                \
+  gotcha_wrappee_handle_t get_##name##_handle();
 #define GOTCHA_MACRO(name, ret, args, args_val, class_name) \
   gotcha_wrappee_handle_t name##_handle;                    \
   gotcha_wrappee_handle_t get_##name##_handle() { return name##_handle; }
