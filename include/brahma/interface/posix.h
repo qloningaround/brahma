@@ -114,14 +114,14 @@ class POSIX :public Interface {
 
 }  // namespace brahma
 
-GOTCHA_MACRO_TYPEDEF_VARIADIC(open, int, (const char *pathname, int flags, ...),
-                     (pathname, flags, _args), flags, brahma::POSIX);
+GOTCHA_MACRO_TYPEDEF_OPEN(open, int, (const char *pathname, int flags, ...),
+                     (pathname, flags, mode), flags, brahma::POSIX);
 
 GOTCHA_MACRO_TYPEDEF(creat64, int, (const char *path, mode_t mode),
                      (path, mode), brahma::POSIX);
 
-GOTCHA_MACRO_TYPEDEF_VARIADIC(open64, int, (const char *path, int flags, ...),
-                     (path, flags, _args), flags, brahma::POSIX);
+GOTCHA_MACRO_TYPEDEF_OPEN(open64, int, (const char *path, int flags, ...),
+                     (path, flags, mode), flags, brahma::POSIX);
 
 GOTCHA_MACRO_TYPEDEF(close, int, (int fd), (fd), brahma::POSIX);
 
@@ -157,7 +157,7 @@ GOTCHA_MACRO_TYPEDEF(fsync, int, (int fd), (fd), brahma::POSIX);
 
 GOTCHA_MACRO_TYPEDEF(fdatasync, int, (int fd), (fd), brahma::POSIX);
 
-GOTCHA_MACRO_TYPEDEF_VARIADIC(openat, int, (int dirfd, const char *pathname, int flags, ...), (dirfd, pathname, flags, _args), flags, brahma::POSIX);
+GOTCHA_MACRO_TYPEDEF_OPEN(openat, int, (int dirfd, const char *pathname, int flags, ...), (dirfd, pathname, flags, mode), flags, brahma::POSIX);
 GOTCHA_MACRO_TYPEDEF(mmap, void *, (void *addr, size_t length, int prot, int flags, int fd, off_t offset),
                                     (addr, length, prot, flags, fd, offset), brahma::POSIX);
 GOTCHA_MACRO_TYPEDEF(mmap64, void *, (void *addr, size_t length, int prot, int flags, int fd, off64_t offset),
