@@ -2,6 +2,8 @@
 // Created by hariharan on 8/16/22.
 //
 #include <brahma/interface/posix.h>
+#include <fcntl.h>
+
 GOTCHA_MACRO(open, int, (const char *pathname, int flags, mode_t mode),
              (pathname, flags, mode), brahma::POSIX);
 
@@ -150,11 +152,18 @@ size_t count_posix() { return 54; }
 namespace brahma {
 std::shared_ptr<POSIX> POSIX::my_instance = nullptr;
 int POSIX::open(const char *pathname, int flags, ...) {
-  va_list args;
-  va_start(args, flags);
-  BRAHMA_UNWRAPPED_FUNC(open, int, (pathname, flags, args));
-  va_end(args);
-  return result;
+
+  if (flags & O_CREAT) {
+    va_list args;
+    va_start(args, flags);
+    int mode = va_arg(args, int);
+    va_end(args);
+    BRAHMA_UNWRAPPED_FUNC(open, int, (pathname, flags, mode));
+    return result;
+  } else {
+    BRAHMA_UNWRAPPED_FUNC(open, int, (pathname, flags));
+    return result;
+  }
 }
 
 int POSIX::creat64(const char *path, mode_t mode) {
@@ -163,11 +172,17 @@ int POSIX::creat64(const char *path, mode_t mode) {
 }
 
 int POSIX::open64(const char *path, int flags, ...) {
-  va_list args;
-  va_start(args, flags);
-  BRAHMA_UNWRAPPED_FUNC(open64, int, (path, flags, args));
-  va_end(args);
-  return result;
+  if (flags & O_CREAT) {
+    va_list args;
+    va_start(args, flags);
+    int mode = va_arg(args, int);
+    va_end(args);
+    BRAHMA_UNWRAPPED_FUNC(open64, int, (path, flags, mode));
+    return result;
+  } else {
+    BRAHMA_UNWRAPPED_FUNC(open64, int, (path, flags));
+    return result;
+  }
 }
 
 int POSIX::close(int fd) {
@@ -226,11 +241,17 @@ int POSIX::fdatasync(int fd) {
 }
 
 int POSIX::openat(int dirfd, const char *pathname, int flags, ...) {
-  va_list args;
-  va_start(args, flags);
-  BRAHMA_UNWRAPPED_FUNC(openat, int, (dirfd, pathname, flags, args));
-  va_end(args);
-  return result;
+  if (flags & O_CREAT) {
+    va_list args;
+    va_start(args, flags);
+    int mode = va_arg(args, int);
+    va_end(args);
+    BRAHMA_UNWRAPPED_FUNC(openat, int, (dirfd, pathname, flags, mode));
+    return result;
+  }else {
+    BRAHMA_UNWRAPPED_FUNC(openat, int, (dirfd, pathname, flags));
+    return result;
+  }
 }
 void* POSIX::mmap(void *addr, size_t length, int prot, int flags, int fd, off_t offset) {
   BRAHMA_UNWRAPPED_FUNC(mmap, void*, (addr, length, prot, flags, fd, offset));
