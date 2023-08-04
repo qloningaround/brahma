@@ -14,6 +14,7 @@
 #include <utime.h>
 #include <dirent.h>
 #include <stdexcept>
+#include <fcntl.h>
 
 namespace brahma {
 class POSIX :public Interface {
@@ -99,7 +100,7 @@ class POSIX :public Interface {
   virtual dirent* readdir(DIR *dir);
   virtual int closedir(DIR *dir);
   virtual void rewinddir(DIR *dir);
-  virtual int fcntl(int fd, int cmd, long arg);
+  virtual int fcntl(int fd, int cmd, ...);
   virtual int dup(int oldfd);
   virtual int dup2(int oldfd, int newfd);
   virtual int pipe(int pipefd[2]);
@@ -188,7 +189,31 @@ GOTCHA_MACRO_TYPEDEF(opendir, DIR*, (const char *name), (name), brahma::POSIX);
 GOTCHA_MACRO_TYPEDEF(readdir, struct dirent*, (DIR *dir), (dir), brahma::POSIX);
 GOTCHA_MACRO_TYPEDEF(closedir, int, (DIR *dir), (dir), brahma::POSIX);
 GOTCHA_MACRO_TYPEDEF(rewinddir, void, (DIR *dir), (dir), brahma::POSIX);
-GOTCHA_MACRO_TYPEDEF(fcntl, int, (int fd, int cmd, long arg), (fd, cmd, arg), brahma::POSIX);
+typedef int(*fcntl_fptr) (int fd, int cmd, ...);
+  inline int fcntl_wrapper (int fd, int cmd, ...) {
+    if(cmd==F_DUPFD || cmd==F_DUPFD_CLOEXEC || cmd==F_SETFD || cmd==F_SETFL || cmd==F_SETOWN) {            // arg: int
+      va_list arg;
+      va_start(arg, cmd);
+      int val = va_arg(arg, int);
+      va_end(arg);
+      int v = brahma::POSIX::get_instance()->fcntl(fd, cmd, val);
+      return v;
+    } else if(cmd==F_GETFD || cmd==F_GETFL || cmd==F_GETOWN) {
+      int v = brahma::POSIX::get_instance()->fcntl(fd, cmd);
+      return v;
+    } else if(cmd==F_SETLK || cmd==F_SETLKW || cmd==F_GETLK) {
+      va_list arg;
+      va_start(arg, cmd);
+      struct flock *lk = va_arg(arg, struct flock*);
+      va_end(arg);
+      int v = brahma::POSIX::get_instance()->fcntl(fd, cmd, lk);
+      return v;
+    } else {                        // assume arg: void, cmd==F_GETOWN_EX || cmd==F_SETOWN_EX ||cmd==F_GETSIG || cmd==F_SETSIG)
+      int v = brahma::POSIX::get_instance()->fcntl(fd, cmd);
+      return v;
+    }
+  };
+  gotcha_wrappee_handle_t get_fcntl_handle();
 GOTCHA_MACRO_TYPEDEF(dup, int, (int oldfd), (oldfd), brahma::POSIX);
 GOTCHA_MACRO_TYPEDEF(dup2, int, (int oldfd, int newfd), (oldfd, newfd), brahma::POSIX);
 GOTCHA_MACRO_TYPEDEF(pipe, int, (int pipefd[2]), (pipefd), brahma::POSIX);

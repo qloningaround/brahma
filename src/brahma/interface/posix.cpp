@@ -365,9 +365,28 @@ int POSIX::closedir(DIR *dir) {
 void POSIX::rewinddir(DIR *dir) {
   BRAHMA_UNWRAPPED_FUNC_VOID(rewinddir, (dir));
 }
-int POSIX::fcntl(int fd, int cmd, long arg) {
-  BRAHMA_UNWRAPPED_FUNC(fcntl, int, (fd, cmd, arg));
-  return result;
+int POSIX::fcntl(int fd, int cmd, ...) {
+  if(cmd==F_DUPFD || cmd==F_DUPFD_CLOEXEC || cmd==F_SETFD || cmd==F_SETFL || cmd==F_SETOWN) {            // arg: int
+    va_list arg;
+    va_start(arg, cmd);
+    int val = va_arg(arg, int);
+    va_end(arg);
+    BRAHMA_UNWRAPPED_FUNC(fcntl, int, (fd, cmd, val));
+    return result;
+  } else if(cmd==F_GETFD || cmd==F_GETFL || cmd==F_GETOWN) {
+    BRAHMA_UNWRAPPED_FUNC(fcntl, int, (fd, cmd));
+    return result;
+  } else if(cmd==F_SETLK || cmd==F_SETLKW || cmd==F_GETLK) {
+    va_list arg;
+    va_start(arg, cmd);
+    struct flock *lk = va_arg(arg, struct flock*);
+    va_end(arg);
+    BRAHMA_UNWRAPPED_FUNC(fcntl, int, (fd, cmd, lk));
+    return result;
+  } else {                        // assume arg: void, cmd==F_GETOWN_EX || cmd==F_SETOWN_EX ||cmd==F_GETSIG || cmd==F_SETSIG)
+    BRAHMA_UNWRAPPED_FUNC(fcntl, int, (fd, cmd));
+    return result;
+  }
 }
 int POSIX::dup(int oldfd) {
   BRAHMA_UNWRAPPED_FUNC(dup, int, (oldfd));
