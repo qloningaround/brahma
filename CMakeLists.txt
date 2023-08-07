@@ -1,3 +1,4 @@
+cmake_minimum_required(VERSION 3.0)
 project(brahma)# VERSION 1.0.0 DESCRIPTION "I/O interceptor library in CPP using Gotcha")
 #------------------------------------------------------------------------------
 # Version information
@@ -224,7 +225,7 @@ install(EXPORT
         )
 set(DEPENDENCY_LIB)
 
-find_package(cpp-logger REQUIRED)
+find_package(cpp-logger 0.0.1 REQUIRED)
 if (${CPP_LOGGER_FOUND})
     message(STATUS "[Brahma] found cpp-logger at ${CPP_LOGGER_INCLUDE_DIRS}")
     include_directories(${CPP_LOGGER_INCLUDE_DIRS})
@@ -234,7 +235,7 @@ else ()
 endif ()
 
 # find Gotcha
-find_package(gotcha REQUIRED)
+find_package(gotcha 0.0.4 REQUIRED)
 if (${gotcha_FOUND})
     message(STATUS "[Brahma] found gotcha at ${gotcha_INCLUDE_DIRS}")
     include_directories(${gotcha_INCLUDE_DIRS})
