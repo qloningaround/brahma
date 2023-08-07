@@ -13,7 +13,7 @@ set(BRAHMA_PACKAGE_VERSION_MAJOR "${BRAHMA_VERSION_MAJOR}.${BRAHMA_VERSION_MINOR
 set(BRAHMA_PACKAGE_VERSION_MINOR "${BRAHMA_VERSION_PATCH}")
 set(BRAHMA_PACKAGE_STRING "${BRAHMA_PACKAGE_NAME} ${BRAHMA_PACKAGE_VERSION}")
 set(BRAHMA_PACKAGE_TARNAME "${BRAHMA_PACKAGE}")
-cmake_minimum_required(VERSION 3.0)
+
 set(CMAKE_PREFIX_PATH ${CMAKE_PREFIX_PATH} ${CMAKE_CURRENT_SOURCE_DIR}/dependency/.spack-env/view ${CMAKE_BINARY_DIR}/lib/cmake)
 
 #------------------------------------------------------------------------------
@@ -235,7 +235,7 @@ else ()
 endif ()
 
 # find Gotcha
-find_package(gotcha 0.0.4 REQUIRED)
+find_package(gotcha 2.1.2 REQUIRED)
 if (${gotcha_FOUND})
     message(STATUS "[Brahma] found gotcha at ${gotcha_INCLUDE_DIRS}")
     include_directories(${gotcha_INCLUDE_DIRS})
