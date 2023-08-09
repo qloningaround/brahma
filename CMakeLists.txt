@@ -188,7 +188,7 @@ install(
         FILES
         ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/cmake/${PROJECT_NAME}/install/${PROJECT_NAME}-config.cmake
         DESTINATION
-        ${CPP_LOGGER_INSTALL_LIB_DIR}/cmake/${PROJECT_NAME}
+        ${BRAHMA_INSTALL_LIB_DIR}/cmake/${PROJECT_NAME}
 )
 
 install(TARGETS ${PROJECT_NAME}
