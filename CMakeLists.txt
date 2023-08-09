@@ -145,7 +145,7 @@ endif ()
 # by other projects.
 #-----------------------------------------------------------------------------
 if (NOT BRAHMA_EXPORTED_TARGETS)
-    set(BRAHMA_EXPORTED_TARGETS "cpp-logger-targets")
+    set(BRAHMA_EXPORTED_TARGETS "${PROJECT_NAME}-targets")
 endif ()
 
 set(BRAHMA_LIBTYPE SHARED)
