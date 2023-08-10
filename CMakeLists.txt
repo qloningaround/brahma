@@ -145,7 +145,7 @@ endif ()
 # by other projects.
 #-----------------------------------------------------------------------------
 if (NOT BRAHMA_EXPORTED_TARGETS)
-    set(BRAHMA_EXPORTED_TARGETS "cpp-logger-targets")
+    set(BRAHMA_EXPORTED_TARGETS "${PROJECT_NAME}-targets")
 endif ()
 
 set(BRAHMA_LIBTYPE SHARED)
@@ -180,9 +180,13 @@ configure_file(
         ${CMAKE_CURRENT_SOURCE_DIR}/CMake/${PROJECT_NAME}-config.cmake.build.in
         ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/cmake/${PROJECT_NAME}/${PROJECT_NAME}-config.cmake @ONLY
 )
+configure_file(
+        ${CMAKE_CURRENT_SOURCE_DIR}/CMake/${PROJECT_NAME}-config.cmake.install.in
+        ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/cmake/${PROJECT_NAME}/install/${PROJECT_NAME}-config.cmake @ONLY
+)
 install(
         FILES
-        ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/cmake/${PROJECT_NAME}/${PROJECT_NAME}-config.cmake
+        ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/cmake/${PROJECT_NAME}/install/${PROJECT_NAME}-config.cmake
         DESTINATION
         ${BRAHMA_INSTALL_LIB_DIR}/cmake/${PROJECT_NAME}
 )
@@ -229,7 +233,7 @@ find_package(cpp-logger 0.0.1 REQUIRED)
 if (${CPP_LOGGER_FOUND})
     message(STATUS "[Brahma] found cpp-logger at ${CPP_LOGGER_INCLUDE_DIRS}")
     include_directories(${CPP_LOGGER_INCLUDE_DIRS})
-    set(DEPENDENCY_LIB ${DEPENDENCY_LIB} libgotcha.so)
+    set(DEPENDENCY_LIB ${DEPENDENCY_LIB} ${CPP_LOGGER_LIBRARIES})
 else ()
     message(FATAL_ERROR "-- [Brahma] cpp-logger is needed for ${PROJECT_NAME} build")
 endif ()
