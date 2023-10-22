@@ -24,7 +24,7 @@ class STDIO:public Interface {
     return my_instance;
   }
   STDIO():Interface(){}
-  ~STDIO() {}
+  virtual ~STDIO() = default;
   static int set_instance(std::shared_ptr<STDIO> instance_i) {
     if (instance_i != nullptr) {
       my_instance = instance_i;
