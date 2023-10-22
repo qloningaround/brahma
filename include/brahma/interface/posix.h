@@ -30,7 +30,7 @@ class POSIX :public Interface {
     return my_instance;
   }
   POSIX():Interface(){}
-  ~POSIX() {};
+  virtual ~POSIX() = default;
   static int set_instance(std::shared_ptr<POSIX> instance_i) {
     if (instance_i != nullptr) {
       my_instance = instance_i;
