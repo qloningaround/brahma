@@ -41,7 +41,7 @@ RUN mkdir -p ${SPACK_DIR}
 RUN git clone https://github.com/spack/spack.git ${SPACK_DIR}
 RUN sh ${SPACK_DIR}/share/spack/setup-env.sh
 ENV PATH="${PATH}:${SPACK_DIR}/bin"
-RUN spack install --sh gotcha@1.0.5 catch2@3.0.1 cpp-logger@0.0.3
+RUN spack install --sh gotcha@1.0.5 catch2@3.0.1 cpp-logger@0.0.2
 ENTRYPOINT service ssh restart && bash
 
 # worker
